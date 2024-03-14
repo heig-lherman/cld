@@ -12,7 +12,21 @@ In this task you will migrate the Drupal database to the new RDS database instan
 [INPUT]
 //help : path /home/bitnami/bitnami_credentials
 
+ssh devopsteam17@15.188.43.46 -i ../secrets/CLD_KEY_DMZ_DEVOPSTEAM17.pem -L 1722:10.0.17.10:22 -L 1780:10.0.17.10:8080
+
+ssh bitnami@localhost -p 1722 -i ../secrets/CLD_KEY_DRUPAL_DEVOPSTEAM17.pem
+
+cat /home/bitnami/bitnami_credentials
+
 [OUTPUT]
+
+******************************************************************************
+The default username and password is 'user' and '[pass]'.
+******************************************************************************
+
+You can also use this password to access the databases and any other component the stack includes.
+
+Please refer to https://docs.bitnami.com/ for more details.
 ```
 
 ### Get Database Name of Drupal
