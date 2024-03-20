@@ -35,25 +35,38 @@ Please refer to https://docs.bitnami.com/ for more details.
 [INPUT]
 //add string connection
 
-show databases;
+mysql -u root -p'[PASSWORD]' -e "SHOW databases;"
 
 [OUTPUT]
++--------------------+
+| Database           |
++--------------------+
+| bitnami_drupal     |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
 ```
 
 ### [Dump Drupal DataBases](https://mariadb.com/kb/en/mariadb-dump/)
 
 ```bash
 [INPUT]
+mariadb-dump -u root -p'[PASSWORD]' --databases bitnami_drupal > drupal.sql
 
 [OUTPUT]
+
 ```
 
 ### Create the new Data base on RDS
 
 ```sql
 [INPUT]
-CREATE DATABASE bitnami_drupal;
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u admin -p'[PASSWORD]' -e "CREATE DATABASE bitnami_drupal;"
 ```
+
 
 ### [Import dump in RDS db-instance](https://mariadb.com/kb/en/restoring-data-from-dump-files/)
 
@@ -61,8 +74,7 @@ Note : you can do this from the Drupal Instance. Do not forget to set the "-h" p
 
 ```sql
 [INPUT]
-mysql -h <rds-end-point> -u <rds_admin_user> -p <db_target> < <pathToDumpFileToImport>.sql
-
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u admin -p'[PASSWORD]' < drupal.sql
 [OUTPUT]
 ```
 
@@ -72,10 +84,22 @@ mysql -h <rds-end-point> -u <rds_admin_user> -p <db_target> < <pathToDumpFileToI
 [INPUT]
 //help : same settings.php as before
 
+cat /bitnami/drupal/sites/default/settings.php | tail -n14
+
 [OUTPUT]
-//at the end of the file you will find connection string parameters
-//username = bn_drupal
-//password = XXXXXXX
+
+$databases['default']['default'] = array (
+  'database' => 'bitnami_drupal',
+  'username' => 'bn_drupal',
+  'password' => '[PASSWORD]',
+  'prefix' => '',
+  'host' => '127.0.0.1',
+  'port' => '3306',
+  'isolation_level' => 'READ COMMITTED',
+  'driver' => 'mysql',
+  'namespace' => 'Drupal\mysql\Driver\Database\mysql',
+  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
+);
 ```
 
 ### Replace the current host with the RDS FQDN
@@ -99,24 +123,19 @@ Note : only calls from both private subnets must be approved.
 
 ```sql
 [INPUT]
-CREATE USER bn_drupal@'10.0.[XX].0/[Subnet Mask - A]]' IDENTIFIED BY '<Drupal password>';
-
-GRANT ALL PRIVILEGES ON bitnami_drupal.* TO '<yourNewUser>';
-
-//DO NOT FOREGT TO FLUSH PRIVILEGES
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u admin -p'[PASSWORD]' -e "GRANT ALL PRIVILEGES ON bitnami_drupal.* TO 'bn_drupal'@'10.0.17.0/255.255.255.240' IDENTIFIED BY '[PASSWORD]';"
 ```
 
 ```sql
-//validation
 [INPUT]
-SHOW GRANTS for 'bn_drupal'@'10.0.[XX].0/[yourMask]]';
-
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u admin -p'[PASSWORD]' -e "SHOW GRANTS for 'bn_drupal'@'10.0.17.0/255.255.255.240';"
 [OUTPUT]
+
 +----------------------------------------------------------------------------------------------------------------------------------+
-| Grants for <yourNewUser>                                                                                                         |
+| Grants for bn_drupal@10.0.17.0/255.255.255.240                                                                                   |
 +----------------------------------------------------------------------------------------------------------------------------------+
-| GRANT USAGE ON *.* TO <yourNewUser> IDENTIFIED BY PASSWORD 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'                           |
-| GRANT ALL PRIVILEGES ON `bitnami_drupal`.* TO <yourNewUser>                                                                      |
+| GRANT USAGE ON *.* TO `bn_drupal`@`10.0.17.0/255.255.255.240` IDENTIFIED BY PASSWORD '[PASSWORD]' |
+| GRANT ALL PRIVILEGES ON `bitnami_drupal`.* TO `bn_drupal`@`10.0.17.0/255.255.255.240`                                            |
 +----------------------------------------------------------------------------------------------------------------------------------+
 ```
 
@@ -124,19 +143,17 @@ SHOW GRANTS for 'bn_drupal'@'10.0.[XX].0/[yourMask]]';
 
 ```sql
 [INPUT]
-mysql -h dbi-devopsteam[XX].xxxxxxxx.eu-west-3.rds.amazonaws.com -u bn_drupal -p
-
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u bn_drupal -p'[PASSWORD]' bitnami_drupal -e "SHOW DATABASES;"
 [INPUT]
-show databases;
-
-[OUTPUT]
 +--------------------+
 | Database           |
 +--------------------+
 | bitnami_drupal     |
 | information_schema |
 +--------------------+
-2 rows in set (0.001 sec)
 ```
 
 * Repeat the procedure to enable the instance on subnet 2 to also talk to your RDS instance.
+```sql
+mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u admin -p'[PASSWORD]' -e "GRANT ALL PRIVILEGES ON bitnami_drupal.* TO 'bn_drupal'@'10.0.17.128/255.255.255.240' IDENTIFIED BY '[PASSWORD]';"
+```
