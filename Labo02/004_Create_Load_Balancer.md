@@ -26,15 +26,8 @@ aws ec2 create-security-group \
 aws ec2 authorize-security-group-ingress \
 --protocol tcp \
 --port 8080 \
---cidr 10.0.17.0/28 \
---tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Description,Value="ALL HTTP TRAFFIC FROM SUBNET 17a"}]' \
---group-id $(aws ec2 describe-security-groups --filters "Name=group-name, Values=SG-DEVOPSTEAM17-LB" | jq -r '.SecurityGroups[0].GroupId')
-
-aws ec2 authorize-security-group-ingress \
---protocol tcp \
---port 8080 \
---cidr 10.0.17.128/28 \
---tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Description,Value="ALL HTTP TRAFFIC FROM SUBNET 17b"}]' \
+--cidr 10.0.0.0/28 \
+--tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Description,Value="ALL HTTP TRAFFIC FROM DMZ"}]' \
 --group-id $(aws ec2 describe-security-groups --filters "Name=group-name, Values=SG-DEVOPSTEAM17-LB" | jq -r '.SecurityGroups[0].GroupId')
 
 [OUTPUT]
@@ -47,40 +40,18 @@ aws ec2 authorize-security-group-ingress \
     "Return": true,
     "SecurityGroupRules": [
         {
-            "SecurityGroupRuleId": "sgr-0a2f301ae6c902454",
+            "SecurityGroupRuleId": "sgr-070c1a3a46efc2939",
             "GroupId": "sg-0ea9660af951df7e5",
             "GroupOwnerId": "709024702237",
             "IsEgress": false,
             "IpProtocol": "tcp",
             "FromPort": 8080,
             "ToPort": 8080,
-            "CidrIpv4": "10.0.17.0/28",
+            "CidrIpv4": "0.0.0.0/0",
             "Tags": [
                 {
                     "Key": "Description",
-                    "Value": "ALL HTTP TRAFFIC FROM SUBNET 17a"
-                }
-            ]
-        }
-    ]
-}
----
-{
-    "Return": true,
-    "SecurityGroupRules": [
-        {
-            "SecurityGroupRuleId": "sgr-021b58f747852e745",
-            "GroupId": "sg-0ea9660af951df7e5",
-            "GroupOwnerId": "709024702237",
-            "IsEgress": false,
-            "IpProtocol": "tcp",
-            "FromPort": 8080,
-            "ToPort": 8080,
-            "CidrIpv4": "10.0.17.128/28",
-            "Tags": [
-                {
-                    "Key": "Description",
-                    "Value": "ALL HTTP TRAFFIC FROM SUBNET 17b"
+                    "Value": "ALL HTTP TRAFFIC FROM DMZ"
                 }
             ]
         }
@@ -272,17 +243,45 @@ Note : In the EC2 console select the Target Group. In the
 * Update your string connection to test your ELB and test it
 
 ```bash
-//connection string updated
+ssh devopsteam17@15.188.43.46 -i ../secrets/CLD_KEY_DMZ_DEVOPSTEAM17.pem -L 1780:internal-ELB-DEVOPSTEAM17-2061856987.eu-west-3.elb.amazonaws.com:8080
 ```
 
 * Test your application through your ssh tunneling
 
 ```bash
 [INPUT]
-curl localhost:[local port forwarded]
+curl -svo /dev/null localhost:1780
 
 [OUTPUT]
 
+* Host localhost:1780 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:1780...
+* Connected to localhost (::1) port 1780
+> GET / HTTP/1.1
+> Host: localhost:1780
+> User-Agent: curl/8.6.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Date: Thu, 21 Mar 2024 15:55:30 GMT
+< Content-Type: text/html; charset=UTF-8
+< Content-Length: 16554
+< Connection: keep-alive
+< Server: Apache
+< Cache-Control: must-revalidate, no-cache, private
+< X-Drupal-Dynamic-Cache: MISS
+< Content-language: en
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: SAMEORIGIN
+< Expires: Sun, 19 Nov 1978 05:00:00 GMT
+< X-Generator: Drupal 10 (https://www.drupal.org)
+< X-Drupal-Cache: HIT
+< Vary: Accept-Encoding
+<
+{ [16554 bytes data]
+* Connection #0 to host localhost left intact
 ```
 
 #### Questions - Analysis
@@ -292,7 +291,12 @@ curl localhost:[local port forwarded]
   the DNS name and the resolved IP Address(es) into the report.
 
 ```
-//TODO
+❯ nslookup internal-ELB-DEVOPSTEAM17-2061856987.eu-west-3.elb.amazonaws.com
+
+Name:   internal-ELB-DEVOPSTEAM17-2061856987.eu-west-3.elb.amazonaws.com
+Address: 10.0.17.139
+Name:   internal-ELB-DEVOPSTEAM17-2061856987.eu-west-3.elb.amazonaws.com
+Address: 10.0.17.7
 ```
 
 * From your Drupal instance, identify the ip from which requests are sent by the Load Balancer.
@@ -300,12 +304,17 @@ curl localhost:[local port forwarded]
 Help : execute `tcpdump port 8080`
 
 ```
-//TODO
+16:07:47.526350 IP 10.0.17.7.38538 > provisioner-local.http-alt: Flags [P.], seq 1:131, ack 1, win 106, options [nop,nop,TS val 2902575067 ecr 666852689], length 130: HTTP: GET / HTTP/1.1
 ```
 
 * In the Apache access log identify the health check accesses from the
   load balancer and copy some samples into the report.
 
 ```
-//TODO
+10.0.17.139 - - [21/Mar/2024:15:59:27 +0000] "GET / HTTP/1.1" 200 5147
+10.0.17.7 - - [21/Mar/2024:15:59:27 +0000] "GET / HTTP/1.1" 200 5147
+10.0.17.139 - - [21/Mar/2024:15:59:37 +0000] "GET / HTTP/1.1" 200 5147
+10.0.17.7 - - [21/Mar/2024:15:59:37 +0000] "GET / HTTP/1.1" 200 5147
+10.0.17.139 - - [21/Mar/2024:15:59:47 +0000] "GET / HTTP/1.1" 200 5147
+10.0.17.7 - - [21/Mar/2024:15:59:47 +0000] "GET / HTTP/1.1" 200 5147
 ```
