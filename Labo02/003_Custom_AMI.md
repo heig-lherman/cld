@@ -19,6 +19,7 @@ Note : stop the instance before
 aws ec2 create-image --name "AMI_DRUPAL_DEVOPSTEAM17_LABO02_RDS" --description "AMI_DRUPAL_DEVOPSTEAM17_LABO02_RDS" \
 --tag-specifications 'ResourceType=image,Tags=[{Key=Name,Value=AMI_DRUPAL_DEVOPSTEAM17_LABO02_RDS}]' \
 --instance-id $(aws ec2 describe-instances --filters "Name=tag:Name, Values=EC2_PRIVATE_DRUPAL_DEVOPSTEAM17_A" | jq -r '.Reservations[0].Instances[0].InstanceId')
+
 [OUTPUT]
 
 {
@@ -190,6 +191,7 @@ ssh bitnami@localhost -p 2224 -i ../secrets/CLD_KEY_DRUPAL_DEVOPSTEAM17.pem
 ```sql
 [INPUT]
 bitnami@ip-10-0-17-10:~$  mysql -h dbi-devopsteam17.cshki92s4w5p.eu-west-3.rds.amazonaws.com -u bn_drupal -p'[PASSWORD]' bitnami_drupal -e "SHOW DATABASES;"
+
 [OUTPUT]
 +--------------------+
 | Database           |
