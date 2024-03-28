@@ -47,7 +47,7 @@ aws ec2 authorize-security-group-ingress \
             "IpProtocol": "tcp",
             "FromPort": 8080,
             "ToPort": 8080,
-            "CidrIpv4": "0.0.0.0/0",
+            "CidrIpv4": "10.0.0.0/28",
             "Tags": [
                 {
                     "Key": "Description",
