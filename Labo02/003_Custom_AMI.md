@@ -44,7 +44,7 @@ aws ec2 run-instances --count 1 --instance-type t3.micro \
 --key-name CLD_KEY_DRUPAL_DEVOPSTEAM17 \
 --security-group-ids $(aws ec2 describe-security-groups --filters "Name=group-name, Values=SG-PRIVATE-DRUPAL-DEVOPSTEAM17" | jq -r '.SecurityGroups[].GroupId') \
 --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name, Values=SUB-PRIVATE-DEVOPSTEAM17b" | jq -r ".Subnets[].SubnetId") \
---private-ip-address 10.0.17.10 \
+--private-ip-address 10.0.17.140 \
 --block-device-mappings 'DeviceName=/dev/sdh,Ebs={VolumeSize=10,VolumeType=gp2}' \
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=EC2_PRIVATE_DRUPAL_DEVOPSTEAM17_B}]' \
 --image-id $(aws ec2 describe-images --filters "Name=tag:Name,Values=AMI_DRUPAL_DEVOPSTEAM17_LABO02_RDS" | jq -r ".Images[0].ImageId")
