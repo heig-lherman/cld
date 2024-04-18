@@ -84,7 +84,18 @@ We have a bit slower response time on the console. As there is no network relate
 
   ```
 
-  //TODO
+| Service Description                                 | Metric        | Amount   | Description                                     |
+|-----------------------------------------------------|---------------|----------|-------------------------------------------------|
+| Cloud Firestore Read Operations                     | Million Ops   | 0.000034 | Amount of read operations on the database       |
+| Cloud Firestore API Calls                           | Calls         | 3,386    | Amount of calls on the datastore                |
+| Cloud Firestore Stored Data                         | GB            | 0.00021  | Amount of data stored in the datastore          |
+| Data Sent to Cloud Firestore API                    | GB            | 0.00021  | Amount of data sent to the datastore            |
+| Data Received from Cloud Firestore API              | GB            | 0.0002   | Amount of data received from the datastore      |
+| Cloud Firestore Entity Fetch Ops                    | Ops           | 34       | Amount of entities fetched from the datastore   |
+| Cloud Firestore Entity Writes                       | Million Ops   | 0.0033   | Amount of entities written to the datastore     |
+| Cloud Firestore Index Write Ops                     | Ops           | 7        | Amount of indexes written to the datastore      |
+| Cloud Firestore Network Egress                      | GB            | 0.000007 | Amount of data sent to the network from the datastore             |
+| Cloud Storage Network (Egress) - Americas and EMEA  | GB            | 0.000065 | Amount of data sent to the network in Americas and EMEA |
 
   ```
 
