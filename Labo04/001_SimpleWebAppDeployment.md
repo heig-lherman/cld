@@ -56,7 +56,8 @@ Create a simple web application as follows.
    `HelloAppEngine` file. What does the code do?
 
    ```
-   //TODO
+   It sets up an endpoint on /hello that replies with a text response displaying the current environment
+   versions of the Java runtime and the operating system.
    ```
 
 6. Note the annotation starting with `@WebServlet` in front of the
@@ -66,14 +67,14 @@ Create a simple web application as follows.
    `web.xml`. What information does it contain? And what is its use ?
 
    ```
-   //TODO
+   It defines the welcome page for the applet, i.e. the default index page that should be served to users.
    ```
 
 8. Inspect the Google App Engine configuration file
    `appengine-web.xml` in `webapp/WEB-INF`. What information does it contain?
 
    ```
-   //TODO
+   It sets the runtime configuration and the logging configuration that should be used.
    ```
 
 9. Edit the Google App Engine configuration file as follows:
@@ -85,7 +86,7 @@ Create a simple web application as follows.
     `index.jsp` spotted in `web.xml`. What is its use ?
 
     ```
-    //TODO
+    It is a java server page file that is used to generate the HTML content of the default page served to users.
     ```
 
 ---
@@ -155,17 +156,22 @@ Deliverables:
   **appengine-web.xml** and **index.jsp** files in a few sentences.
 
   ```
-  //TODO Java class files
+  // HelloAppEngine.java (in clg-gae/src/main/java/ch/heigvd/cld/lab/HelloAppEngine.java)
+  It sets up an endpoint on /hello that replies with a text response displaying the current environment
+  versions of the Java runtime and the operating system.
   ```
 
   ```
-  //TODO web.xml
+  // web.xml
+  It defines the welcome page for the applet, i.e. the default index page that should be served to users.
   ```
 
   ```
-  //TODO appengine-web.xml
+  // appengine-web.xml
+  It sets the runtime configuration and the logging configuration that should be used.
   ```
 
   ```
-  //TODO index.jsp
+  // index.jsp
+  It is a java server page file that is used to generate the HTML content of the default page served to users.
   ```
