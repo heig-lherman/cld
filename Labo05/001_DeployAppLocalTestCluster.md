@@ -175,18 +175,257 @@ You should see the application's main page titled __Todos V2__ and you should be
 
 Document any difficulties you faced and how you overcame them. Copy the object descriptions into the lab report.
 
-> // TODO
+> No issues arised, though we used our own kubernetes cluster hosted on a homelab.
 
-```````
-// TODO object descriptions
-```````
+```
+# Object descriptions
+❯ k describe all -n cld
+
+Name:             redis
+Namespace:        cld
+Priority:         0
+Service Account:  default
+Node:             apollo-k8s/172.20.10.105
+Start Time:       Thu, 02 May 2024 15:41:48 +0200
+Labels:           app=todo
+                  component=redis
+Annotations:      <none>
+Status:           Running
+IP:               10.42.0.189
+IPs:
+  IP:  10.42.0.189
+Containers:
+  redis:
+    Container ID:  containerd://72cb0fdc143a84af24064c8ebfc506f69dce1723a5808300a76ec98d9ff32913
+    Image:         redis
+    Image ID:      docker.io/library/redis@sha256:f14f42fc7e824b93c0e2fe3cdf42f68197ee0311c3d2e0235be37480b2e208e6
+    Port:          6379/TCP
+    Host Port:     0/TCP
+    Args:
+      redis-server
+      --requirepass ccp2
+      --appendonly yes
+    State:          Running
+      Started:      Thu, 02 May 2024 15:41:59 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hfftw (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-hfftw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  11m   default-scheduler  Successfully assigned cld/redis to apollo-k8s
+  Normal  Pulling    11m   kubelet            Pulling image "redis"
+  Normal  Pulled     11m   kubelet            Successfully pulled image "redis" in 8.825s (8.825s including waiting)
+  Normal  Created    11m   kubelet            Created container redis
+  Normal  Started    11m   kubelet            Started container redis
+
+
+Name:             api
+Namespace:        cld
+Priority:         0
+Service Account:  default
+Node:             apollo-k8s/172.20.10.105
+Start Time:       Thu, 02 May 2024 15:48:38 +0200
+Labels:           app=todo
+                  component=api
+Annotations:      <none>
+Status:           Running
+IP:               10.42.0.191
+IPs:
+  IP:  10.42.0.191
+Containers:
+  api:
+    Container ID:   containerd://678be7a8e63317f5f1b7930dd857d053915ca9b2aff9d7d878c3591307204af2
+    Image:          icclabcna/ccp2-k8s-todo-api
+    Image ID:       docker.io/icclabcna/ccp2-k8s-todo-api@sha256:13cb50bc9e93fdf10b4608f04f2966e274470f00c0c9f60815ec8fc987cd6e03
+    Port:           8081/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 02 May 2024 15:49:12 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      REDIS_ENDPOINT:  redis-svc
+      REDIS_PWD:       ccp2
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-lq89f (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-lq89f:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  4m21s  default-scheduler  Successfully assigned cld/api to apollo-k8s
+  Normal  Pulling    4m20s  kubelet            Pulling image "icclabcna/ccp2-k8s-todo-api"
+  Normal  Pulled     3m48s  kubelet            Successfully pulled image "icclabcna/ccp2-k8s-todo-api" in 32.57s (32.57s including waiting)
+  Normal  Created    3m47s  kubelet            Created container api
+  Normal  Started    3m47s  kubelet            Started container api
+
+
+Name:             frontend
+Namespace:        cld
+Priority:         0
+Service Account:  default
+Node:             apollo-k8s/172.20.10.105
+Start Time:       Thu, 02 May 2024 15:48:41 +0200
+Labels:           app=todo
+                  component=frontend
+Annotations:      <none>
+Status:           Running
+IP:               10.42.0.192
+IPs:
+  IP:  10.42.0.192
+Containers:
+  api:
+    Container ID:   containerd://0b459ee47483729ab8445804110a3661051bd0a135e21fb2f2bd57886bbec12e
+    Image:          icclabcna/ccp2-k8s-todo-frontend
+    Image ID:       docker.io/icclabcna/ccp2-k8s-todo-frontend@sha256:5892b8f75a4dd3aa9d9cf527f8796a7638dba574ea8e6beef49360a3c67bbb44
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 02 May 2024 15:49:20 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      API_ENDPOINT_URL:  http://api-svc:8081
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-blgs7 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-blgs7:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  4m18s  default-scheduler  Successfully assigned cld/frontend to apollo-k8s
+  Normal  Pulling    4m18s  kubelet            Pulling image "icclabcna/ccp2-k8s-todo-frontend"
+  Normal  Pulled     3m41s  kubelet            Successfully pulled image "icclabcna/ccp2-k8s-todo-frontend" in 37.029s (37.029s including waiting)
+  Normal  Created    3m41s  kubelet            Created container api
+  Normal  Started    3m40s  kubelet            Started container api
+
+
+Name:              redis-svc
+Namespace:         cld
+Labels:            component=redis
+Annotations:       <none>
+Selector:          app=todo,component=redis
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.43.102.182
+IPs:               10.43.102.182
+Port:              redis  6379/TCP
+TargetPort:        6379/TCP
+Endpoints:         10.42.0.189:6379
+Session Affinity:  None
+Events:            <none>
+
+
+Name:              api-svc
+Namespace:         cld
+Labels:            component=api
+Annotations:       <none>
+Selector:          app=todo,component=api
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.43.153.50
+IPs:               10.43.153.50
+Port:              http  8081/TCP
+TargetPort:        8081/TCP
+Endpoints:         10.42.0.191:8081
+Session Affinity:  None
+Events:            <none>
+```
 
 ```yaml
 # api-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: api
+  name: api-svc
+spec:
+  ports:
+  - port: 8081
+    targetPort: 8081
+    name: http
+  selector:
+    app: todo
+    component: api
+  type: ClusterIP
+
 ```
 
 ```yaml
 # frontend-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  labels:
+    component: frontend
+    app: todo
+spec:
+  containers:
+  - name: frontend
+    image: icclabcna/ccp2-k8s-todo-frontend
+    ports:
+    - name: http
+      containerPort: 8080
+    env:
+    - name: API_ENDPOINT_URL
+      value: http://api-svc:8081
 ```
 
 > [!TIP]
