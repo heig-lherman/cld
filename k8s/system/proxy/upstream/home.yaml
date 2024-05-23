@@ -1,0 +1,33 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: apps-home-homer-8080
+  namespace: gloo-system
+spec:
+  discoveryMetadata:
+    labels:
+      app.kubernetes.io/service: homer
+      app.kubernetes.io/instance: homepage
+  kube:
+    selector:
+      app.kubernetes.io/name: homer
+      app.kubernetes.io/instance: homepage
+    serviceName: homer
+    serviceNamespace: apps-home
+    servicePort: 8080
+  healthChecks:
+    - healthyThreshold: 1
+      httpHealthCheck:
+        path: /
+      interval: 3s
+      timeout: 1s
+      unhealthyThreshold: 1
+      reuseConnection: false
+      noTrafficInterval: 5s
+  outlierDetection:
+    consecutive5xx: 3
+    maxEjectionPercent: 50
+    interval: 1s
+  circuitBreakers:
+    maxRetries: 10
+  ignoreHealthOnHostRemoval: true

@@ -1,0 +1,15 @@
+project_id  = "REPLACE_WITH_YOUR_PROJECT_ID"
+
+region           = "europe-west1"
+zone             = "europe-west1-a"
+gke_cluster_name = "cld-workshop"
+num_nodes        = 3
+machine_type     = "e2-small"
+disk_size        = 10
+network_name     = "cld-workshop-team02"
+ip_address_name  = "cld-workshop-ip"
+ssl_cert_name    = "cld-workshop-ssl"
+ssl_cert_crt     = "certs/certificate.crt"
+ssl_cert_key     = "certs/certificate.key"
+
+https            = true

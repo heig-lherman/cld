@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+data:
+  server.insecure: 'true'
+  application.namespaces: 'system, apps'
+  controller.status.processors: '60'
+  controller.operation.processors: '60'
+  controller.repo.server.timeout.seconds: '360'

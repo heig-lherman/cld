@@ -1,0 +1,22 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: argocd-server-80
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - 'apps.cld.heig.lutonite.dev'
+    routes:
+      - matchers:
+          - prefix: /
+        options:
+          retries:
+            retryOn: 'connect-failure,5xx'
+            numRetries: 5
+            perTryTimeout: 1s
+        routeAction:
+          single:
+            upstream:
+              name: argocd-argocd-server-80
+              namespace: gloo-system

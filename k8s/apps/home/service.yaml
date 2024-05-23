@@ -1,0 +1,21 @@
+# Source: homer/templates/common.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: homer
+  labels:
+    app.kubernetes.io/service: homer
+    app.kubernetes.io/instance: homepage
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: homer
+    app.kubernetes.io/version: v23.10.1
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/instance: homepage
+    app.kubernetes.io/name: homer

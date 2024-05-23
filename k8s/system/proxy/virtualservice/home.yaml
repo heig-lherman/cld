@@ -1,0 +1,22 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: home
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - '*'
+    routes:
+      - matchers:
+          - prefix: /
+        options:
+          retries:
+            retryOn: 'connect-failure,5xx'
+            numRetries: 5
+            perTryTimeout: 1s # Default is 15s
+        routeAction:
+          single:
+            upstream:
+              name: apps-home-homer-8080
+              namespace: gloo-system
