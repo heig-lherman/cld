@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kustom-webapp-prod
+  namespace: argocd
+spec:
+  destinations:
+    - namespace: kustom-webapp-prod
+      name: '*'
+  sourceRepos:
+    - '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  sourceNamespaces:
+    - '*'

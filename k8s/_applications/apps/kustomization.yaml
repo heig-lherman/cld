@@ -6,3 +6,4 @@ resources:
   - home-app.yaml
   - kustom-webapp-dev.yaml
   - kustom-webapp-preprod.yaml
+  - kustom-webapp-prod.yaml

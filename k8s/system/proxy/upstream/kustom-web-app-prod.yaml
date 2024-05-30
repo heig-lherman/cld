@@ -1,0 +1,35 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: apps-kustom-webapp-prod-80
+  namespace: gloo-system
+spec:
+  discoveryMetadata:
+    labels:
+      app.kubernetes.io/service: webapp
+      app.kubernetes.io/instance: webapp
+      app-env: prod
+  kube:
+    selector:
+      app.kubernetes.io/name: webapp
+      app.kubernetes.io/instance: webapp
+      app-env: prod
+    serviceName: webapp
+    serviceNamespace: kustom-webapp-prod
+    servicePort: 80
+  healthChecks:
+    - healthyThreshold: 1
+      httpHealthCheck:
+        path: /
+      interval: 3s
+      timeout: 1s
+      unhealthyThreshold: 1
+      reuseConnection: false
+      noTrafficInterval: 5s
+  outlierDetection:
+    consecutive5xx: 3
+    maxEjectionPercent: 50
+    interval: 1s
+  circuitBreakers:
+    maxRetries: 10
+  ignoreHealthOnHostRemoval: true

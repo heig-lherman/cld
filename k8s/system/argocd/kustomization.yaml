@@ -10,6 +10,7 @@ resources:
   - projects/default-project.yaml
   - projects/kustom-webapp-dev.yaml
   - projects/kustom-webapp-preprod.yaml
+  - projects/kustom-webapp-prod.yaml
 
   - applications/apollo-system.yaml
   - applications/apollo-apps.yaml
