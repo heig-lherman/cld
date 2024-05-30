@@ -5,7 +5,9 @@ namespace: gloo-system
 resources:
   - upstream/home.yaml
   - upstream/kustom-web-app-dev.yaml
+  - upstream/kustom-web-app-preprod.yaml
   
   - virtualservice/argocd.yaml
   - virtualservice/home.yaml
   - virtualservice/kustom-web-app-dev.yaml
+  - virtualservice/kustom-web-app-preprod.yaml

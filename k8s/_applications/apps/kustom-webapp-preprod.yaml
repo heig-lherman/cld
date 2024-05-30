@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustom-webapp-preprod
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: kustom-webapp-preprod
+  source:
+    repoURL: "https://github.com/heig-lherman/cld"
+    targetRevision: HEAD
+    path: k8s/apps/kustom-webapp/overlays/preprod
+  destination:
+    name: in-cluster
+    namespace: kustom-webapp-preprod
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
