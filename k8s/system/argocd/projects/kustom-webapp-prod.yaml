@@ -14,6 +14,10 @@ spec:
       kind: "*"
   sourceNamespaces:
     - "*"
+  signatureKeys:
+    - keyID: 7E243C24EE3BCED2
+    - keyID: 043123FF2E8BE320
+    - keyID: 508855D4AF4F3E73
   syncWindows:
     - kind: allow
       schedule: "* 8-17 * * 1-4"

@@ -6,11 +6,15 @@ metadata:
 spec:
   destinations:
     - namespace: kustom-webapp-preprod
-      name: '*'
+      name: "*"
   sourceRepos:
-    - '*'
+    - "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
   sourceNamespaces:
-    - '*'
+    - "*"
+  signatureKeys:
+    - keyID: 7E243C24EE3BCED2
+    - keyID: 043123FF2E8BE320
+    - keyID: 508855D4AF4F3E73
