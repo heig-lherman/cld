@@ -7,12 +7,15 @@ metadata:
 spec:
   project: kustom-webapp-prod
   source:
-    repoURL: 'https://github.com/heig-lherman/cld'
+    repoURL: "https://github.com/heig-lherman/cld"
     targetRevision: HEAD
     path: k8s/apps/kustom-webapp/overlays/prod
   destination:
     name: in-cluster
     namespace: kustom-webapp-prod
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true

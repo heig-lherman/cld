@@ -6,11 +6,19 @@ metadata:
 spec:
   destinations:
     - namespace: kustom-webapp-prod
-      name: '*'
+      name: "*"
   sourceRepos:
-    - '*'
+    - "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
   sourceNamespaces:
-    - '*'
+    - "*"
+  syncWindows:
+    - kind: allow
+      schedule: "* 8-17 * * 1-4"
+      duration: 1h
+      timeZone: Europe/Zurich
+      manualSync: true
+      applications:
+        - "*"
