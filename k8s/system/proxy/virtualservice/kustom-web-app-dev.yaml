@@ -1,0 +1,22 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: kustom-webapp-dev
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - 'dev.cld.heig.lutonite.dev'
+    routes:
+      - matchers:
+          - prefix: /
+        options:
+          retries:
+            retryOn: 'connect-failure,5xx'
+            numRetries: 5
+            perTryTimeout: 1s
+        routeAction:
+          single:
+            upstream:
+              name: apps-kustom-webapp-dev-80
+              namespace: gloo-system

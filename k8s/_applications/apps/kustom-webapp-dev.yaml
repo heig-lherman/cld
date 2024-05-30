@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustom-webapp-dev
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: kustom-webapp-dev
+  source:
+    repoURL: "https://github.com/heig-lherman/cld"
+    targetRevision: HEAD
+    path: k8s/apps/kustom-webapp/overlays/dev
+  destination:
+    name: in-cluster
+    namespace: kustom-webapp-dev
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

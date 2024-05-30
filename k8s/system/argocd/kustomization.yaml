@@ -6,9 +6,13 @@ resources:
   - namespace.yaml
   - https://github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.11.2
   - argocd-github-ssec.yaml
+
   - projects/default-project.yaml
+  - projects/kustom-webapp-dev.yaml
+
   - applications/apollo-system.yaml
   - applications/apollo-apps.yaml
+  
   - rbac/argocd-server-rbac-crole.yaml
   - rbac/argocd-server-rbac-crb.yaml
 
