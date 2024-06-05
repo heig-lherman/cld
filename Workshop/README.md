@@ -11,7 +11,6 @@ The infrastructure consists of the following logical components:
 - **Kubernetes Cluster**: A managed GKE (Google Kubernetes Engine) cluster.
 - **ArgoCD**: A continuous delivery tool for Kubernetes, deployed within the GKE cluster.
 - **Git Repository**: A Git repository hosted on GitHub, containing application manifests and configurations.
-- **CI/CD Pipeline**: Integrated with GitHub Actions for automated testing and deployment.
 - **Networking**: The ArgoCD application should be accessed using a standard HTTPS connection on a load balancer to the cluster.
 - **Cloud Type**: Public cloud infrastructure on Google Cloud Platform (GCP), a platform-as-a-service.
 
