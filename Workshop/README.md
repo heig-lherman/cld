@@ -16,7 +16,7 @@ The infrastructure consists of the following logical components:
 
 ### Simplified diagram
 
-![diagram-export-06-06-2024-09_48_37](https://github.com/heig-lherman/cld/assets/21953109/2e8ef220-1fa1-4f57-9e72-0ea969d01838)
+![diagram.png](diagram.png)
 
 ## Scenario
 
