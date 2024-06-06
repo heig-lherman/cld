@@ -78,6 +78,14 @@ As such, for the period in which we setup and tested our usecases the price was 
 
 ## Return of experience
 
-<take a position on the poc that has been produced.>
+The POC demonstrated that ArgoCD is a highly effective tool for managing Kubernetes deployments using GitOps principles. The deployment process was smooth, and the integration with GKE and GitHub proved to be seamless. ArgoCD's ability to automatically sync and deploy changes from the Git repository to the Kubernetes cluster ensured a consistent and reliable deployment pipeline.
 
-<Did it validate the announced objectives?>
+The objectives of the POC were validated as follows:
+- **Scalability:** ArgoCD effectively managed scalable applications in the Kubernetes environment, handling updates and rollbacks efficiently.
+- **Reliability:** The system reliably detected changes in the GitHub repository and deployed them to the cluster, ensuring that the application was always up-to-date.
+- **Automation:** The deployment pipeline was highly automated, reducing the need for manual intervention and minimizing human errors.
+- **Cost-effectiveness:** The cost optimization strategies employed demonstrated that it is possible to run ArgoCD on GKE in a cost-effective manner, though some of these strategies may need to be adjusted for production environments.
+
+One significant advantage of using ArgoCD paired with Kubernetes is the reduction of vendor lock-in. Since Kubernetes is supported by all major cloud providers and ArgoCD operates purely within the Kubernetes ecosystem, this setup is almost cloud agnostic. This flexibility allows for easier migration between different cloud providers or even a hybrid/multi-cloud strategy without significant changes to the deployment pipeline.
+
+Overall, the POC confirmed that ArgoCD is a robust solution for managing Kubernetes deployments in a scalable, automated, and consistent manner.
