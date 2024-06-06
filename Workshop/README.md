@@ -14,6 +14,10 @@ The infrastructure consists of the following logical components:
 - **Networking**: The ArgoCD application should be accessed using a standard HTTPS connection on a load balancer to the cluster.
 - **Cloud Type**: Public cloud infrastructure on Google Cloud Platform (GCP), a platform-as-a-service.
 
+### Simplified diagram
+
+![diagram-export-06-06-2024-09_48_37](https://github.com/heig-lherman/cld/assets/21953109/2e8ef220-1fa1-4f57-9e72-0ea969d01838)
+
 ## Scenario
 
 Describe step-by-step the scenario. Write it using this format (BDD style).
