@@ -69,16 +69,16 @@ ArgoCD is free and open-source software backed by the cloud-native foundation, a
 The main source of cost is the Kubernetes cluster, handled by the Google Kubernetes Engine, though we did apply some strategies to reduce the cost for the purposes of this demonstration.
 But it is to be made clear that some of the techniques used to minimize cost would not be advisable for a production deployment.
 
-Our running cost per day is $2.40 on the Kubernetes Engine (a cluster with 3 e2-small nodes with the minimum settings, in spot instance configuration).
+Our running cost per day is $2.96 on the Kubernetes Engine (a cluster with 3 e2-small nodes with the minimum settings, in spot instance configuration).
 Most of the price is for the control plane, which Google charges a lot of money for.
-Added on is the price of the single external load balancer which is a flat rate of $0.20 per day with additional costs depending on usage.
+Added on is the price of the single external load balancer which is a flat rate of $1.00 per day with additional costs depending on usage.
 
 As such, the techniques we used to minimize the costs are as follows:
 
 - The cluster is deployed in Europe's cheapest region (Belgium) in a regional configuration with 3 spot instances.
 - A single external load balancer is setup for the cluster, in which we internally use Gloo Edge -- an envoy-based reverse proxy that is very configurable and allows settings such as request retries (useful in case one of the spot instances gets destroyed).
 
-As such, for the period in which we setup and tested our usecases the price was only ~$2.60 per day.
+As such, for the period in which we setup and tested our usecases the price was only ~$4.00 per day.
 
 ## Return of experience
 
